@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ติดตามสถานะ | SAFE SCHOOL</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Tahoma, sans-serif;
+    background: #f4f7fc;
+    color: #1e293b;
+}
+
+nav {
+    background: white;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px #00000008;
+}
+
+.logo {
+    color: #2563eb;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #1e293b;
+}
+
+nav a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 700px;
+    margin: 55px auto;
+    padding: 20px;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.heading .icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.heading h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.heading p {
+    color: #64748b;
+    line-height: 1.8;
+}
+
+.form-box {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px #00000008;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dbe3ef;
+    border-radius: 9px;
+    font-size: 15px;
+    margin-bottom: 18px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 9px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.result {
+    display: none;
+    background: white;
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px #00000008;
+}
+
+.result h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.info {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 9px;
+    margin-bottom: 12px;
+    line-height: 1.8;
+}
+
+.status {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.error {
+    display: none;
+    color: #dc2626;
+    background: #fef2f2;
+    padding: 15px;
+    border-radius: 9px;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+@media(max-width: 600px) {
+    .heading h1 {
+        font-size: 25px;
+    }
+
+    .form-box {
+        padding: 22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">SAFE <span>SCHOOL</span></div>
+    <a href="index.html">← กลับหน้าแรก</a>
+</nav>
+
+<div class="container">
+
+    <div class="heading">
+        <div class="icon">🔎</div>
+        <h1>ติดตามสถานะการแจ้งเหตุ</h1>
+        <p>
+            กรอกรหัสรับแจ้งเพื่อดูความคืบหน้า
+            ของเรื่องที่คุณได้แจ้งไว้
+        </p>
+    </div>
+
+    <div class="form-box">
+
+        <form id="statusForm">
+
+            <label>รหัสรับแจ้ง</label>
+
+            <input
+                type="text"
+                id="reportCode"
+                placeholder="กรอกรหัสรับแจ้งของคุณ"
+                required
+            >
+
+            <button type="submit">
+                ตรวจสอบสถานะ
+            </button>
+
+        </form>
+
+        <div class="error" id="error">
+            ไม่พบข้อมูล กรุณาตรวจสอบรหัสรับแจ้งอีกครั้ง
+        </div>
+
+    </div>
+
+    <div class="result" id="result">
+
+        <h2>ข้อมูลการแจ้งเหตุ</h2>
+
+        <div class="info">
+            <strong>รหัสรับแจ้ง:</strong>
+            <span id="showCode"></span>
+        </div>
+
+        <div class="info">
+            <strong>ประเภทเหตุการณ์:</strong>
+            <span id="showType"></span>
+        </div>
+
+        <div class="info">
+            <strong>วันที่แจ้ง:</strong>
+            <span id="showDate"></span>
+        </div>
+
+        <div class="info">
+            <strong>สถานะปัจจุบัน:</strong><br><br>
+            <span class="status" id="showStatus"></span>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    SAFE SCHOOL © 2026 | ระบบแจ้งเหตุและช่วยเหลือนักเรียน
+</footer>
+
+<script>
+document.getElementById("statusForm").addEventListener(
+    "submit", function(event) {
+
+    event.preventDefault();
+
+    const code = document.getElementById("reportCode")
+        .value.trim().toUpperCase();
+
+    const reports = JSON.parse(
+        localStorage.getItem("safeSchoolReports") || "[]"
+    );
+
+    const report = reports.find(item => item.code === code);
+
+    const result = document.getElementById("result");
+    const error = document.getElementById("error");
+
+    result.style.display = "none";
+    error.style.display = "none";
+
+    if (!report) {
+        error.style.display = "block";
+        return;
+    }
+
+    document.getElementById("showCode").textContent = report.code;
+    document.getElementById("showType").textContent = report.type;
+    document.getElementById("showDate").textContent = report.date;
+    document.getElementById("showStatus").textContent = report.status;
+
+    result.style.display = "block";
+});
+</script>
+
+</body>
+</html>
