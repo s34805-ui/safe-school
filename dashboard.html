@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>จัดการข้อมูล | SAFE SCHOOL</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Tahoma, sans-serif;
+    background: #f4f7fc;
+    color: #1e293b;
+}
+
+nav {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px #0001;
+}
+
+.logo {
+    color: #2563eb;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #1e293b;
+}
+
+nav a {
+    text-decoration: none;
+    color: #475569;
+}
+
+.container {
+    max-width: 1150px;
+    margin: 35px auto;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.header p {
+    color: #64748b;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    background: white;
+    padding: 23px;
+    border-radius: 13px;
+    box-shadow: 0 3px 15px #00000008;
+}
+
+.stat p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.stat h2 {
+    font-size: 30px;
+    margin-top: 12px;
+    color: #2563eb;
+}
+
+.panel {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 3px 15px #00000008;
+}
+
+.panel h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.tools {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid #dbe3ef;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+input {
+    flex: 1;
+    min-width: 0;
+}
+
+select {
+    max-width: 220px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px 12px;
+    border-bottom: 1px solid #edf0f5;
+    font-size: 14px;
+}
+
+th {
+    color: #64748b;
+    background: #f8fafc;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 13px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    color: #94a3b8;
+}
+
+.notice {
+    margin-top: 20px;
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+@media(max-width: 750px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tools {
+        flex-direction: column;
+    }
+
+    select {
+        max-width: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">SAFE <span>SCHOOL</span></div>
+    <a href="index.html">← หน้าแรก</a>
+</nav>
+
+<div class="container">
+
+    <div class="header">
+        <h1>ระบบจัดการข้อมูลเจ้าหน้าที่</h1>
+        <p>ตรวจสอบ คัดกรอง และติดตามการแจ้งเหตุภายในโรงเรียน</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <p>เหตุการณ์ทั้งหมด</p>
+            <h2 id="total">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>รับเรื่องแล้ว</p>
+            <h2 id="received">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>กำลังดำเนินการ</p>
+            <h2 id="working">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>ดำเนินการเสร็จสิ้น</p>
+            <h2 id="completed">0</h2>
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>รายการแจ้งเหตุ</h2>
+
+        <div class="tools">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="ค้นหารหัสรับแจ้ง..."
+                oninput="renderReports()"
+            >
+
+            <select id="filter" onchange="renderReports()">
+                <option value="all">สถานะทั้งหมด</option>
+                <option value="รับเรื่องแล้ว">รับเรื่องแล้ว</option>
+                <option value="กำลังตรวจสอบ">กำลังตรวจสอบ</option>
+                <option value="ส่งต่อผู้รับผิดชอบแล้ว">ส่งต่อแล้ว</option>
+                <option value="ดำเนินการเสร็จสิ้น">เสร็จสิ้น</option>
+            </select>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>รหัสรับแจ้ง</th>
+                        <th>ประเภทเหตุ</th>
+                        <th>วันที่เกิดเหตุ</th>
+                        <th>สถานะ</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+
+                <tbody id="reportList"></tbody>
+
+            </table>
+
+        </div>
+
+        <div class="empty" id="empty">
+            ยังไม่มีรายการแจ้งเหตุ
+        </div>
+
+    </div>
+
+    <div class="notice">
+        🔒 หน้านี้เป็นต้นแบบสำหรับทดลองจัดการข้อมูล
+        ข้อมูลตัวอย่างเก็บไว้ในเบราว์เซอร์เท่านั้น
+        ยังไม่มีระบบยืนยันตัวตนและฐานข้อมูลส่วนกลาง
+    </div>
+
+</div>
+
+<footer>
+    SAFE SCHOOL © 2026 | ระบบแจ้งเหตุและช่วยเหลือนักเรียน
+</footer>
+
+<script>
+
+function getReports() {
+    return JSON.parse(
+        localStorage.getItem("safeSchoolReports") || "[]"
+    );
+}
+
+function updateStats() {
+
+    const reports = getReports();
+
+    document.getElementById("total").textContent =
+        reports.length;
+
+    document.getElementById("received").textContent =
+        reports.filter(r => r.status === "รับเรื่องแล้ว").length;
+
+    document.getElementById("working").textContent =
+        reports.filter(r =>
+            r.status === "กำลังตรวจสอบ" ||
+            r.status === "ส่งต่อผู้รับผิดชอบแล้ว"
+        ).length;
+
+    document.getElementById("completed").textContent =
+        reports.filter(r =>
+            r.status === "ดำเนินการเสร็จสิ้น"
+        ).length;
+}
+
+function renderReports() {
+
+    const reports = getReports();
+
+    const search = document.getElementById("search")
+        .value.trim().toUpperCase();
+
+    const filter = document.getElementById("filter").value;
+
+    const list = document.getElementById("reportList");
+
+    list.innerHTML = "";
+
+    const filtered = reports.filter(r => {
+        return r.code.toUpperCase().includes(search) &&
+        (filter === "all" || r.status === filter);
+    });
+
+    document.getElementById("empty").style.display =
+        filtered.length ? "none" : "block";
+
+    filtered.forEach((report) => {
+
+        const tr = document.createElement("tr");
+
+        const values = [
+            report.code,
+            report.type,
+            report.date,
+            report.status
+        ];
+
+        values.forEach((value, index) => {
+            const td = document.createElement("td");
+            td.textContent = value || "-";
+
+            if (index === 3) {
+                const badge = document.createElement("span");
+                badge.className = "status";
+                badge.textContent = value || "-";
+                td.textContent = "";
+                td.appendChild(badge);
+            }
+
+            tr.appendChild(td);
+        });
+
+        const action = document.createElement("td");
+        const button = document.createElement("button");
+
+        button.textContent = "จัดการ";
+
+        button.addEventListener("click", () => {
+            manageReport(report.code);
+        });
+
+        action.appendChild(button);
+        tr.appendChild(action);
+
+        list.appendChild(tr);
+    });
+
+    updateStats();
+}
+
+function manageReport(code) {
+
+    const reports = getReports();
+
+    const report = reports.find(r => r.code === code);
+
+    if (!report) return;
+
+    const choices = [
+        "รับเรื่องแล้ว",
+        "กำลังตรวจสอบ",
+        "ส่งต่อผู้รับผิดชอบแล้ว",
+        "ดำเนินการเสร็จสิ้น"
+    ];
+
+    const message =
+        "รหัสรับแจ้ง: " + report.code +
+        "\nประเภทเหตุ: " + report.type +
+        "\nวันที่เกิดเหตุ: " + report.date +
+        "\nสถานะปัจจุบัน: " + report.status +
+        "\n\nกรอกสถานะใหม่:\n" +
+        choices.map((s, i) => (i + 1) + ". " + s).join("\n");
+
+    const answer = prompt(message);
+
+    if (answer === null) return;
+
+    const index = Number(answer) - 1;
+
+    if (!Number.isInteger(index) ||
+        index < 0 || index >= choices.length) {
+        alert("กรุณาเลือกหมายเลข 1-4");
+        return;
+    }
+
+    report.status = choices[index];
+
+    localStorage.setItem(
+        "safeSchoolReports",
+        JSON.stringify(reports)
+    );
+
+    alert("เปลี่ยนสถานะเรียบร้อย");
+
+    renderReports();
+}
+
+renderReports();
+
+</script>
+
+</body>
+</html>
