@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แจ้งเหตุ | SAFE SCHOOL</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Tahoma, sans-serif;
+    background: #f4f7fc;
+    color: #1e293b;
+}
+
+nav {
+    background: white;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px #00000008;
+}
+
+.logo {
+    color: #2563eb;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #1e293b;
+}
+
+nav a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 760px;
+    margin: 45px auto;
+    padding: 20px;
+}
+
+.heading {
+    margin-bottom: 25px;
+}
+
+.heading h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.heading p {
+    color: #64748b;
+    line-height: 1.8;
+}
+
+.form-box {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px #00000008;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 9px;
+    font-size: 14px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #dbe3ef;
+    border-radius: 9px;
+    font-size: 14px;
+    font-family: inherit;
+    background: white;
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.radio-box {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.radio-option {
+    flex: 1;
+    min-width: 180px;
+    border: 1px solid #dbe3ef;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.radio-option input {
+    width: auto;
+    margin-right: 8px;
+}
+
+.note {
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 22px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #94a3b8;
+    font-size: 13px;
+}
+
+.hidden {
+    display: none;
+}
+
+@media(max-width: 600px) {
+    .form-box {
+        padding: 20px;
+    }
+
+    .heading h1 {
+        font-size: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">SAFE <span>SCHOOL</span></div>
+    <a href="index.html">← กลับหน้าแรก</a>
+</nav>
+
+<div class="container">
+
+    <div class="heading">
+        <h1>📢 แจ้งเหตุ</h1>
+        <p>
+            กรุณากรอกข้อมูลให้ครบถ้วน เพื่อให้เจ้าหน้าที่
+            สามารถตรวจสอบและดำเนินการช่วยเหลือได้อย่างเหมาะสม
+        </p>
+    </div>
+
+    <div class="form-box">
+
+        <form id="reportForm">
+
+            <div class="form-group">
+                <label>ประเภทเหตุการณ์ *</label>
+                <select id="type" required>
+                    <option value="">-- เลือกประเภทเหตุการณ์ --</option>
+                    <option>การกลั่นแกล้งและการรังแก</option>
+                    <option>การทะเลาะวิวาทหรือความขัดแย้ง</option>
+                    <option>การคุกคามและการละเมิดสิทธิ</option>
+                    <option>พฤติกรรมเสี่ยงภายในโรงเรียน</option>
+                    <option>ปัญหาสุขภาพจิตและความเครียด</option>
+                    <option>ปัญหาความปลอดภัย</option>
+                    <option>อื่น ๆ</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>รายละเอียดเหตุการณ์ *</label>
+                <textarea id="detail"
+                placeholder="อธิบายเหตุการณ์ที่พบ..."
+                required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>สถานที่เกิดเหตุ *</label>
+                <input type="text" id="place"
+                placeholder="เช่น อาคารเรียน โรงอาหาร"
+                required>
+            </div>
+
+            <div class="form-group">
+                <label>วันที่เกิดเหตุ *</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label>เวลาที่เกิดเหตุ (ถ้าทราบ)</label>
+                <input type="time" id="time">
+            </div>
+
+            <div class="form-group">
+                <label>การเปิดเผยตัวตน *</label>
+
+                <div class="radio-box">
+                    <label class="radio-option">
+                        <input type="radio" name="identity"
+                        value="เปิดเผยตัวตน" required
+                        onchange="toggleIdentity()">
+                        เปิดเผยตัวตน
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio" name="identity"
+                        value="ไม่เปิดเผยตัวตน"
+                        onchange="toggleIdentity()">
+                        ไม่เปิดเผยตัวตน
+                    </label>
+                </div>
+            </div>
+
+            <div id="identityFields" class="hidden">
+
+                <div class="form-group">
+                    <label>ชื่อผู้แจ้ง *</label>
+                    <input type="text" id="name"
+                    placeholder="กรอกชื่อผู้แจ้ง">
+                </div>
+
+                <div class="form-group">
+                    <label>ห้องเรียน *</label>
+                    <input type="text" id="classroom"
+                    placeholder="เช่น ม.6/6">
+                </div>
+
+                <div class="form-group">
+                    <label>ช่องทางติดต่อกลับ (ถ้าสะดวก)</label>
+                    <input type="text" id="contact"
+                    placeholder="อีเมลหรือช่องทางติดต่อ">
+                </div>
+
+            </div>
+
+            <div class="note">
+                🔒 ข้อมูลการแจ้งเหตุควรได้รับการดูแลเป็นความลับ
+                และเข้าถึงได้เฉพาะเจ้าหน้าที่ที่ได้รับอนุญาต
+            </div>
+
+            <button type="submit">ส่งข้อมูลแจ้งเหตุ</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<footer>
+    SAFE SCHOOL © 2026 | ระบบแจ้งเหตุและช่วยเหลือนักเรียน
+</footer>
+
+<script>
+function toggleIdentity() {
+    const selected = document.querySelector(
+        'input[name="identity"]:checked'
+    );
+
+    const fields = document.getElementById("identityFields");
+    const name = document.getElementById("name");
+    const classroom = document.getElementById("classroom");
+
+    const show = selected && selected.value === "เปิดเผยตัวตน";
+
+    fields.classList.toggle("hidden", !show);
+
+    name.required = !!show;
+    classroom.required = !!show;
+}
+
+document.getElementById("reportForm").addEventListener(
+    "submit", function(event) {
+        event.preventDefault();
+
+        alert(
+            "นี่คือแบบฟอร์มตัวอย่าง ยังไม่ได้บันทึกข้อมูลจริง\n" +
+            "กรุณารอการเชื่อมต่อฐานข้อมูลก่อนใช้งานจริง"
+        );
+    }
+);
+</script>
+
+</body>
+</html>
